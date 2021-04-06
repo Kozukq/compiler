@@ -7,6 +7,7 @@ void yyerror(const char *erreurMsg);
 %%
 
 Algorithme { return ALGO;}
+Declarations {return DECLARATIONS;}
 [0-9]+	 {
            yylval = atoi(yytext);
            return ENTIER;

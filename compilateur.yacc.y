@@ -7,16 +7,19 @@ extern FILE *yyin, *yyout;
 
 %token ENTIER
 %token ALGO
-
+%token DECLARATIONS
+%token DEBUT
+%token TYPE
+%token FIN
 
 %%
 
 programme: algorithme{
-           fprintf(yyout,"Ok\n");
+           fprintf(yyout,"Ok algo + decla\n");
       }
       ;
 
-algorithme: ALGO{
+algorithme: ALGO DECLARATIONS{
         $$;
       };
 
