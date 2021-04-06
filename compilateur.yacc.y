@@ -11,17 +11,23 @@ extern FILE *yyin, *yyout;
 %token DEBUT
 %token TYPE
 %token FIN
+%token VAR
 
 %%
 
 programme: algorithme{
-           fprintf(yyout,"Ok algo + decla + debut + fin\n");
+           fprintf(yyout,"Reconnait une declaration de variable\n");
       }
       ;
 
-algorithme: ALGO DECLARATIONS DEBUT FIN{
-        $$;
+algorithme: ALGO DECLARATIONS decla DEBUT FIN{
+        
       };
+
+decla : VAR ':' TYPE{
+	
+} |
+;
 
 %%
 

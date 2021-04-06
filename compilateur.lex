@@ -11,11 +11,12 @@ Déclarations {return DECLARATIONS;}
 Début { return DEBUT;}
 Fin {return FIN;}
 entier|réel {return TYPE;}
+[A-z]+ {return VAR;}
 [0-9]+	 {
            yylval = atoi(yytext);
            return ENTIER;
          }
-[-+\.]	 { return *yytext; }
+[:]	 { return *yytext; }
 [ \t\n]
 ; 
 	yyerror("Caractère non valide");

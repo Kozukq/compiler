@@ -1,4 +1,5 @@
 Algorithme
 Déclarations
+	x : entier
 Début
 Fin
