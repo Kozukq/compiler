@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include"y.tab.h"
-extern FILE *yyin;
+extern FILE *yyin, *yyout;
 %}
 
 %token ENTIER
@@ -10,7 +10,7 @@ extern FILE *yyin;
 %%
 
 programme: expression '.' {
-           printf("=%d\n", $1);
+           fprintf(yyout,"=%d\n", $1);
       }
       |
       ;
@@ -26,13 +26,16 @@ expression: ENTIER
 %%
 
 int main(int argc, char ** argv) {
-	FILE * f; 
+	FILE * fsrc, * fdest; 
 	if(argc !=3){
 		fprintf(stderr,"Veuillez indiquer un nom de fichier d'entrée et de sortie");
 		exit(EXIT_FAILURE);
 	}
-	f = fopen(argv[1], "r");
-	yyin = f;	
+	fsrc = fopen(argv[1], "r");
+	yyin = fsrc;
+	fdest = fopen(argv[2], "w");
+	yyout = fdest;
+	
   yyparse();
   return EXIT_SUCCESS;
 }

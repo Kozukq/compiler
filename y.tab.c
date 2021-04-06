@@ -67,7 +67,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include"y.tab.h"
-extern FILE *yyin;
+extern FILE *yyin, *yyout;
 
 #line 73 "y.tab.c" /* yacc.c:339  */
 
@@ -1191,7 +1191,7 @@ yyreduce:
         case 2:
 #line 12 "compilateur.yacc.y" /* yacc.c:1646  */
     {
-           printf("=%d\n", (yyvsp[-1]));
+           fprintf(yyout,"=%d\n", (yyvsp[-1]));
       }
 #line 1197 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1445,13 +1445,16 @@ yyreturn:
 
 
 int main(int argc, char ** argv) {
-	FILE * f; 
+	FILE * fsrc, * fdest; 
 	if(argc !=3){
 		fprintf(stderr,"Veuillez indiquer un nom de fichier d'entrée et de sortie");
 		exit(EXIT_FAILURE);
 	}
-	f = fopen(argv[1], "r");
-	yyin = f;	
+	fsrc = fopen(argv[1], "r");
+	yyin = fsrc;
+	fdest = fopen(argv[2], "w");
+	yyout = fdest;
+	
   yyparse();
   return EXIT_SUCCESS;
 }
