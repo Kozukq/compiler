@@ -1,17 +1,20 @@
 %{
 #include "y.tab.h" 
 void yyerror(const char *erreurMsg);
+
 %}
 
 %%
 
+Algorithme { return ALGO;}
 [0-9]+	 {
            yylval = atoi(yytext);
            return ENTIER;
          }
 [-+\.]	 { return *yytext; }
-[ \t\n]	 ; 
-.        yyerror("Caractère non valide");
+[ \t\n]
+; 
+	yyerror("Caractère non valide");
 
 %%
 

@@ -45,11 +45,13 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    ENTIER = 258
+    ENTIER = 258,
+    ALGO = 259
   };
 #endif
 /* Tokens.  */
 #define ENTIER 258
+#define ALGO 259
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

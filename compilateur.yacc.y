@@ -6,21 +6,18 @@ extern FILE *yyin, *yyout;
 %}
 
 %token ENTIER
+%token ALGO
+
 
 %%
 
-programme: expression '.' {
-           fprintf(yyout,"=%d\n", $1);
+programme: algorithme{
+           fprintf(yyout,"Ok\n");
       }
-      |
       ;
 
-expression: ENTIER
-      | expression '+' expression {
-        $$ = $1 + $3;
-      }
-      | expression '-' expression {
-        $$ = $1 - $3;
+algorithme: ALGO{
+        $$;
       };
 
 %%
