@@ -7,7 +7,10 @@ void yyerror(const char *erreurMsg);
 %%
 
 Algorithme { return ALGO;}
-Declarations {return DECLARATIONS;}
+Déclarations {return DECLARATIONS;}
+Début { return DEBUT;}
+Fin {return FIN;}
+entier|réel {return TYPE;}
 [0-9]+	 {
            yylval = atoi(yytext);
            return ENTIER;

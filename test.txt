@@ -1,2 +1,4 @@
 Algorithme
-Declarations
+Déclarations
+Début
+Fin

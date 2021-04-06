@@ -15,11 +15,11 @@ extern FILE *yyin, *yyout;
 %%
 
 programme: algorithme{
-           fprintf(yyout,"Ok algo + decla\n");
+           fprintf(yyout,"Ok algo + decla + debut + fin\n");
       }
       ;
 
-algorithme: ALGO DECLARATIONS{
+algorithme: ALGO DECLARATIONS DEBUT FIN{
         $$;
       };
 
