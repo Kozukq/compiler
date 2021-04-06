@@ -16,7 +16,7 @@ entier|réel {return TYPE;}
            yylval = atoi(yytext);
            return ENTIER;
          }
-[:]	 { return *yytext; }
+[:,]	 { return *yytext; }
 [ \t\n]
 ; 
 	yyerror("Caractère non valide");

@@ -1,5 +1,6 @@
 Algorithme
 Déclarations
-	x : entier
+	x , y : entier
+	z : réel
 Début
 Fin

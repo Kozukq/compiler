@@ -16,18 +16,20 @@ extern FILE *yyin, *yyout;
 %%
 
 programme: algorithme{
-           fprintf(yyout,"Reconnait une declaration de variable\n");
+           fprintf(yyout,"Reconnait une suite de declaration de variables\n");
       }
       ;
 
-algorithme: ALGO DECLARATIONS decla DEBUT FIN{
-        
-      };
+algorithme: ALGO DECLARATIONS decla DEBUT FIN;
 
-decla : VAR ':' TYPE{
-	
-} |
+decla: VAR ':' TYPE decla
+	|VAR ',' suiteVar ':' TYPE decla
+	|
 ;
+
+suiteVar: VAR |
+	VAR ',' VAR |
+	
 
 %%
 
