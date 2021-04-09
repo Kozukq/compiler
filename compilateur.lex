@@ -11,7 +11,8 @@ Début { return DEBUT;}
 Fin {return FIN;}
 entier|réel { yylval = 5;
 return TYPE;}
-[A-z]+ { return VAR;}
+[A-z]+ { printf("test %s", yytext);
+return VAR;}
 [0-9]+	 {
 					yylval = atoi(yytext);
           return ENTIER;

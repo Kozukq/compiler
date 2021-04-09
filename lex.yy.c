@@ -811,11 +811,12 @@ return TYPE;}
 case 6:
 YY_RULE_SETUP
 #line 14 "compilateur.lex"
-{ return VAR;}
+{ printf("test %s", yytext);
+return VAR;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 15 "compilateur.lex"
+#line 16 "compilateur.lex"
 {
 					yylval = atoi(yytext);
           return ENTIER;
@@ -823,31 +824,31 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 19 "compilateur.lex"
+#line 20 "compilateur.lex"
 { return *yytext; }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 20 "compilateur.lex"
+#line 21 "compilateur.lex"
 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 21 "compilateur.lex"
+#line 22 "compilateur.lex"
 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 22 "compilateur.lex"
+#line 23 "compilateur.lex"
 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 24 "compilateur.lex"
+#line 25 "compilateur.lex"
 ECHO;
 	YY_BREAK
-#line 851 "lex.yy.c"
+#line 852 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1848,7 +1849,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 24 "compilateur.lex"
+#line 25 "compilateur.lex"
 
 
 
