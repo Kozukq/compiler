@@ -1,0 +1,5 @@
+# TP 6
+
+Le programme se compile avec un simple `make`.
+
+Il se lance avec avec la commande `./test_tp6` ou `./test_tp6 fichier.txt` avec fichier.txt le nom du fichier de texte que l'on veut tester. Les fichiers présents dans le répertoire sont *texte1.txt*, *texte2.txt*, *dico.txt*, *dico_ae.txt*, *dico_france_quebec.txt* et *histoire_quebec.txt*. Si on ne précise pas de nom de fichier en paramètre, c'est le fichier *text1.txt* qui est chargé.
