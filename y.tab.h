@@ -51,7 +51,9 @@ extern int yydebug;
     DEBUT = 261,
     TYPE = 262,
     FIN = 263,
-    VAR = 264
+    VAR = 264,
+    FUNCTION = 265,
+    PROCEDURE = 266
   };
 #endif
 /* Tokens.  */
@@ -62,6 +64,8 @@ extern int yydebug;
 #define TYPE 262
 #define FIN 263
 #define VAR 264
+#define FUNCTION 265
+#define PROCEDURE 266
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

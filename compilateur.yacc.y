@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include "table_hachage.h"
 #include"y.tab.h"
 extern FILE *yyin, *yyout;
 %}
@@ -12,23 +13,34 @@ extern FILE *yyin, *yyout;
 %token TYPE
 %token FIN
 %token VAR
+%token FUNCTION
+%token PROCEDURE
 
 %%
 
 programme: algorithme{
-           fprintf(yyout,"Reconnait une suite de declaration de variables\n");
+           fprintf(yyout,"Reconnait une suite de declaration de variables %s\n", $1);
       }
       ;
 
-algorithme: ALGO DECLARATIONS decla DEBUT FIN;
+algorithme: ALGO DECLARATIONS decla DEBUT corps FIN;
 
-decla: VAR ':' TYPE decla
-	|VAR ',' suiteVar ':' TYPE decla
+decla: VAR ':' TYPE decla{
+		fprintf(yyout, "Declaration d'une seule variable %d \n", $2);
+		$$ = 5;
+		printf("test : %d", $$);
+	}
+	|VAR ',' suiteVar ':' TYPE decla{
+		fprintf(yyout, "Declaration d'une suite de variables %d \n", $3);
+	}
 	|
 ;
 
 suiteVar: VAR |
 	VAR ',' VAR |
+;
+corps :
+;
 	
 
 %%

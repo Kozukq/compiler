@@ -387,10 +387,10 @@ static yyconst YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    2,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    3,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    4,    1,    1,    1,    5,    5,    5,
+        1,    3,    1,    1,    1,    1,    1,    1,    1,    4,
+        4,    1,    1,    4,    1,    1,    1,    5,    5,    5,
         5,    5,    5,    5,    5,    5,    5,    4,    6,    1,
-        1,    1,    1,    1,    7,    8,    9,   10,    8,   11,
+        4,    1,    1,    1,    7,    8,    9,   10,    8,   11,
         8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
         8,    8,    8,    8,    8,    8,    8,    8,    8,    8,
         8,    8,    8,    8,    8,    8,   12,   13,   14,   15,
@@ -504,8 +504,7 @@ char *yytext;
 #line 2 "compilateur.lex"
 #include "y.tab.h" 
 void yyerror(const char *erreurMsg);
-
-#line 509 "lex.yy.c"
+#line 508 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -723,10 +722,10 @@ YY_DECL
 		}
 
 	{
-#line 7 "compilateur.lex"
+#line 6 "compilateur.lex"
 
 
-#line 730 "lex.yy.c"
+#line 729 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -785,40 +784,41 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 9 "compilateur.lex"
+#line 8 "compilateur.lex"
 { return ALGO;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 10 "compilateur.lex"
+#line 9 "compilateur.lex"
 {return DECLARATIONS;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 11 "compilateur.lex"
+#line 10 "compilateur.lex"
 { return DEBUT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 12 "compilateur.lex"
+#line 11 "compilateur.lex"
 {return FIN;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 13 "compilateur.lex"
-{return TYPE;}
+#line 12 "compilateur.lex"
+{ yylval = 5;
+return TYPE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 14 "compilateur.lex"
-{return VAR;}
+{ return VAR;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 15 "compilateur.lex"
 {
-           yylval = atoi(yytext);
-           return ENTIER;
+					yylval = atoi(yytext);
+          return ENTIER;
          }
 	YY_BREAK
 case 8:
