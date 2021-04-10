@@ -32,6 +32,13 @@
 %token PROCEDURE
 %token LIRE
 %token ECRIRE
+%token ASSIGNATION
+%token EGAL_A
+%token DIFFERENT_DE
+%token INFERIEUR_A
+%token INFERIEUR_OU_EGAL_A
+%token SUPERIEUR_A
+%token SUPERIEUR_OU_EGAL_A
 
 /* Définitions des types */
 %type<str> VAR TYPE
@@ -52,20 +59,20 @@
 			inserer_hachage(&table,cell);
 
 		}
-		|VAR ',' suiteVar ':' TYPE decla{
+		|VAR ',' suite_var ':' TYPE decla{
 			fprintf(yyout, "Declaration d'une suite de variables %s \n", $1);
 			free($1);
 		}
 		|
 	;
 
-	suiteVar: VAR ',' suiteVar | VAR |
+	suite_var: VAR ',' suite_var | VAR |
 	;
 
-	corps : Lecture corps | Ecriture corps |
+	corps : lecture corps | ecriture corps |
 	;
 
-	Lecture : LIRE VAR')' {
+	lecture : LIRE VAR')' {
 		Cellule* cell;
 		cell = rechercher_hachage(table, $2);
 		if(cell != NULL){
@@ -82,7 +89,7 @@
 	}
 	;
 
-	Ecriture : ECRIRE VAR')'{
+	ecriture : ECRIRE VAR')'{
 		Cellule* cell;
 		cell = rechercher_hachage(table, $2);
 		if(cell != NULL){
@@ -97,6 +104,8 @@
 		}
 	}
 	;
+
+
 %%
 
 /* Procédure principale */

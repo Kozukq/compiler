@@ -12,56 +12,99 @@
 
 /* Modèles */
 %%
+	/* Délimiteur algorithme */
 Algorithme {
 	return ALGO;
 }
 
+	/* Délimiteur bloc de déclarations */
 Déclarations {
 	return DECLARATIONS;
 }
 
+	/* Délimiteur de début du bloc de code */
 Début {
 	return DEBUT;
 }
 
+	/* Délimiteur de fin du bloc de code */
 Fin {
 	return FIN;
 }
 
+	/* Type */
 entier|réel {
-	char * tmp = malloc(sizeof(char) * strlen(yytext));
+	char* tmp = malloc(sizeof(char) * strlen(yytext));
 	strcpy(tmp,yytext);
 	yylval.str = tmp;
 	printf("test type : %s\n", yylval.str);
 	return TYPE;
 }
 
+	/* Fonction lire */
 lire[(] {
 	return LIRE;
 }
+
+	/* Fonction écrire */
 écrire[(] {
 	return ECRIRE;
 }
 
+	/* Texte */
 [A-z]+ {
-	char * tmp = malloc(sizeof(char) * strlen(yytext));
+	char* tmp = malloc(sizeof(char) * strlen(yytext));
 	strcpy(tmp,yytext);
 	yylval.str = tmp;
 	printf("test var : %s\n", yylval.str);
 	return VAR;
 }
 
+	/* Nombre */
 [0-9]+ {
 	yylval.val = atoi(yytext);
 	return ENTIER;
 }
 
-[:,()=]	{
+	/* Opérateur d'assignation */
+:= {
+	return ASSIGNATION;
+}
+
+	/* Opérateurs de calculs */
+[+*-/%]	{
 	return *yytext;
 }
 
+	/* Opérateurs de comparaison */
+== {
+	return EGAL_A;
+}
+
+!= {
+	return DIFFERENT_DE;
+}
+
+[<] {
+	return INFERIEUR_A;
+}
+
+(<=) {
+	return INFERIEUR_OU_EGAL_A;
+}
+
+[>] {
+	return SUPERIEUR_A;
+}
+
+(>=) {
+	return SUPERIEUR_OU_EGAL_A;
+}
+
+	/* Caractères à ignorer */
 [ \t\n] {}
 
+	/* Comportement par défaut */
 yyerror("Caractère non valide");
 %%
 
