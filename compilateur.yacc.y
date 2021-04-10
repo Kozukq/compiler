@@ -8,6 +8,8 @@
 extern FILE *yyin, *yyout;
 int nbVar = 0;
 Table_hachage t;
+int yylex();
+void yyerror(const char* s);
 %}
 
 %token ENTIER
@@ -93,7 +95,7 @@ int main(int argc, char ** argv) {
 	initialiser_table_hachage(&t,25);
 	FILE * fsrc, * fdest; 
 	if(argc !=3){
-		fprintf(stderr,"Veuillez indiquer un nom de fichier d'entrée et de sortie");
+		fprintf(stderr,"Veuillez indiquer un nom de fichier d'entrée et de sortie\n");
 		exit(EXIT_FAILURE);
 	}
 	fsrc = fopen(argv[1], "r");

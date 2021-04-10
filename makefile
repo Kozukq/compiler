@@ -5,7 +5,7 @@ YACC_FILE = compilateur.yacc.y
 
 LEX = flex
 LEXFLAGS = 
-LEXLIB = -lfl
+LEXLIB =
 YACC = yacc
 YACCFLAGS = -d
 YACCLIB = 

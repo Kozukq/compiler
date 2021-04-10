@@ -1,3 +1,5 @@
+%option noyywrap
+
 %{
 #include "y.tab.h" 
 #include "table_hachage.h"
