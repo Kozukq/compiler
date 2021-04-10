@@ -51,6 +51,29 @@ lire[(] {
 	return ECRIRE;
 }
 
+	/* Cas Parmi */
+
+Cas{
+	return CAS;
+}
+
+Parmi{
+	return PARMI
+}
+
+
+défaut{
+	return DEFAUT
+}
+
+Fin {
+	return FIN
+}
+
+FinCas {
+	return FIN_CAS
+}
+
 	/* Texte */
 [A-z]+ {
 	char* tmp = malloc(sizeof(char) * strlen(yytext));
@@ -100,6 +123,8 @@ lire[(] {
 (>=) {
 	return SUPERIEUR_OU_EGAL_A;
 }
+
+	
 
 	/* Caractères à ignorer */
 [ \t\n] {}
