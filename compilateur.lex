@@ -1,27 +1,38 @@
+/* Options */
 %option noyywrap
 
+/* Déclarations */
 %{
-#include "y.tab.h" 
-#include "include/table_hachage.h"
-#include <string.h>
-void yyerror(const char *erreurMsg);
+	#include "y.tab.h" 
+	#include "include/table_hachage.h"
+	#include <string.h>
+	
+	void yyerror(const char *erreurMsg);
 %}
 
+/* Modèles */
 %%
+Algorithme {
+	return ALGO;
+}
 
-Algorithme { return ALGO;}
+Déclarations {
+	return DECLARATIONS;
+}
 
-Déclarations {return DECLARATIONS;}
+Début {
+	return DEBUT;
+}
 
-Début {return DEBUT;}
-
-Fin {return FIN;}
+Fin {
+	return FIN;
+}
 
 entier|réel {
 	char * tmp = malloc(sizeof(char) * strlen(yytext));
 	strcpy(tmp,yytext);
 	yylval.str = tmp;
-	printf("test type : %s\n", yylval);
+	printf("test type : %s\n", yylval.str);
 	return TYPE;
 }
 
@@ -36,24 +47,26 @@ lire[(] {
 	char * tmp = malloc(sizeof(char) * strlen(yytext));
 	strcpy(tmp,yytext);
 	yylval.str = tmp;
-	printf("test var : %s\n", yylval);
+	printf("test var : %s\n", yylval.str);
 	return VAR;
 }
 
 [0-9]+ {
 	yylval.val = atoi(yytext);
-  return ENTIER;
+	return ENTIER;
 }
 
-[:,()=]	 { return *yytext; }
+[:,()=]	{
+	return *yytext;
+}
 
-[ \t\n]
-; 
-	yyerror("Caractère non valide");
+[ \t\n] {}
 
+yyerror("Caractère non valide");
 %%
 
+/* Traitement des erreurs */
 void yyerror(const char *erreurMsg) {
-  fprintf(stderr, "\n Erreur '%s' sur '%s'.\n", erreurMsg, yytext);
-  exit(EXIT_FAILURE);
+	fprintf(stderr, "\n Erreur '%s' sur '%s'.\n", erreurMsg, yytext);
+	exit(EXIT_FAILURE);
 }
