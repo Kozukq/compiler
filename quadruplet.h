@@ -1,6 +1,7 @@
 #ifndef QUADRUPLET_H
 #define QUADRUPLET_H
 
+/*Structure représentant un quadruplet*/
 typedef struct quadruplet_t{
 	char * mnemonique;
 	char * arg1;
@@ -8,7 +9,9 @@ typedef struct quadruplet_t{
 	char * arg3;
 } quadruplet;
 
+/*Initialise le quadruplet*/
 void initialiser_quadruplet(quadruplet *, char*, char*, char*, char*);
+/*Ecrit le quadruplet dans fichier spécifié en paramètre*/
 void ecrire_quadruplet(FILE*, quadruplet *);
 
 #endif
