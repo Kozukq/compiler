@@ -11,9 +11,10 @@ YACCFLAGS = -d
 YACCLIB = 
 
 LIB = -lm
+FLAGS = -W -Wall
 
 $(EXECUTABLE): y.tab.o lex.yy.o liste.o cellule.o table_hachage.o
-	gcc -o $(EXECUTABLE) lex.yy.o y.tab.o liste.o cellule.o table_hachage.o $(LEXLIB) $(YACCLIB) $(LIB) -W -Wall
+	gcc -o $(EXECUTABLE) lex.yy.o y.tab.o liste.o cellule.o table_hachage.o $(LEXLIB) $(YACCLIB) $(LIB)
 
 lex.yy.o: lex.yy.c y.tab.h
 	gcc -c lex.yy.c

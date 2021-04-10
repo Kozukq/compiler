@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "table_hachage.h"
+#include "cellule.h"
+#include "liste.h"
 extern FILE *yyin, *yyout;
 int nbVar = 0;
+Table_hachage t;
 %}
 
 %token ENTIER
@@ -29,6 +32,8 @@ int nbVar = 0;
 
 %%
 
+/*void inserer_hachage(Table_hachage *,Cellule *);
+Cellule * rechercher_hachage(Table_hachage, char *);*/
 
 programme: algorithme{
            fprintf(yyout,"Reconnait une suite de declaration de variables\n");
@@ -38,14 +43,12 @@ programme: algorithme{
 algorithme: ALGO DECLARATIONS decla DEBUT corps FIN;
 
 decla: VAR ':' TYPE decla{
-		fprintf(yyout, "Declaration d'une seule variable : %s et son Type :  %s \n", $1, $3);
-		if(strcmp($3,"réel")==0){
-			fprintf(yyout, "%s est un réel \n", $1);
-		} else {
-			fprintf(yyout, "Imossible de reconnaitre réel dans : %s\n", $3);
-		}
-		free($1);
-		free($3);
+		Cellule *c = malloc(sizeof(Cellule));
+		initialiserCellule(c, $1, $3, nbVar);
+		nbVar++; 
+		printf("Declaration d'une seule variable : %s et son Type :  %s \n", $1, $3);
+		inserer_hachage(&t,c);
+
 	}
 	|VAR ',' suiteVar ':' TYPE decla{
 		fprintf(yyout, "Declaration d'une suite de variables %s \n", $1);
@@ -62,6 +65,15 @@ corps : Lecture corps | Ecriture corps |
 Lecture : LIRE VAR')' {
 	fprintf(yyout, "Lecture de :  %s \n", $2);
 	fprintf(yyout, "inE;;;%d\n", nbVar);
+	Cellule * c;
+	c = rechercher_hachage(t, $2);
+	if(c != NULL){
+		printf("Lecture de :  %s \n", $2);
+		fprintf(yyout, "inE;;;%d\n", c->num);
+	} else {
+		printf("Erreur de lecture, %s n'a pas été définie\n", $2);
+		exit(1);
+	}
 	
 }
 ;
@@ -77,7 +89,6 @@ Ecriture : ECRIRE VAR')'{
 %%
 
 int main(int argc, char ** argv) {
-	Table_hachage t;
 	initialiser_table_hachage(&t,25);
 	FILE * fsrc, * fdest; 
 	if(argc !=3){

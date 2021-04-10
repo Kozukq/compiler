@@ -68,10 +68,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "table_hachage.h"
+#include "cellule.h"
+#include "liste.h"
 extern FILE *yyin, *yyout;
 int nbVar = 0;
+Table_hachage t;
 
-#line 75 "y.tab.c" /* yacc.c:339  */
+#line 78 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -134,17 +137,17 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-#line 22 "compilateur.yacc.y" /* yacc.c:355  */
+#line 25 "compilateur.yacc.y" /* yacc.c:355  */
 union YYSTYPE
 {
-#line 23 "compilateur.yacc.y" /* yacc.c:355  */
+#line 26 "compilateur.yacc.y" /* yacc.c:355  */
 
     char * str;
 	int val;
 
-#line 146 "y.tab.c" /* yacc.c:355  */
+#line 149 "y.tab.c" /* yacc.c:355  */
 };
-#line 22 "compilateur.yacc.y" /* yacc.c:355  */
+#line 25 "compilateur.yacc.y" /* yacc.c:355  */
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -159,7 +162,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 163 "y.tab.c" /* yacc.c:358  */
+#line 166 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -457,8 +460,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    33,    33,    38,    40,    50,    54,    57,    57,    57,
-      59,    59,    59,    62,    68
+       0,    38,    38,    43,    45,    53,    57,    60,    60,    60,
+      62,    62,    62,    65,    80
 };
 #endif
 
@@ -1242,59 +1245,66 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 33 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 38 "compilateur.yacc.y" /* yacc.c:1646  */
     {
            fprintf(yyout,"Reconnait une suite de declaration de variables\n");
       }
-#line 1250 "y.tab.c" /* yacc.c:1646  */
+#line 1253 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 40 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 45 "compilateur.yacc.y" /* yacc.c:1646  */
     {
-		fprintf(yyout, "Declaration d'une seule variable : %s et son Type :  %s \n", (yyvsp[-3].str), (yyvsp[-1].str));
-		if(strcmp((yyvsp[-1].str),"réel")==0){
-			fprintf(yyout, "%s est un réel \n", (yyvsp[-3].str));
-		} else {
-			fprintf(yyout, "Imossible de reconnaitre réel dans : %s\n", (yyvsp[-1].str));
-		}
-		free((yyvsp[-3].str));
-		free((yyvsp[-1].str));
+		Cellule *c = malloc(sizeof(Cellule));
+		initialiserCellule(c, (yyvsp[-3].str), (yyvsp[-1].str), nbVar);
+		nbVar++; 
+		printf("Declaration d'une seule variable : %s et son Type :  %s \n", (yyvsp[-3].str), (yyvsp[-1].str));
+		inserer_hachage(&t,c);
+
 	}
-#line 1265 "y.tab.c" /* yacc.c:1646  */
+#line 1266 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 50 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 53 "compilateur.yacc.y" /* yacc.c:1646  */
     {
 		fprintf(yyout, "Declaration d'une suite de variables %s \n", (yyvsp[-5].str));
 		free((yyvsp[-5].str));
 	}
-#line 1274 "y.tab.c" /* yacc.c:1646  */
+#line 1275 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 62 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 65 "compilateur.yacc.y" /* yacc.c:1646  */
     {
 	fprintf(yyout, "Lecture de :  %s \n", (yyvsp[-1].str));
 	fprintf(yyout, "inE;;;%d\n", nbVar);
-	
-}
-#line 1284 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 14:
-#line 68 "compilateur.yacc.y" /* yacc.c:1646  */
-    {
-	fprintf(yyout, "Ecriture de :  %s \n", (yyvsp[-1].str));
-	fprintf(yyout, "outE;;;%d\n", nbVar);
+	Cellule * c;
+	c = rechercher_hachage(t, (yyvsp[-1].str));
+	if(c != NULL){
+		printf("Lecture de :  %s \n", (yyvsp[-1].str));
+		fprintf(yyout, "inE;;;%d\n", c->num);
+	} else {
+		printf("Erreur de lecture, %s n'a pas été définie", (yyvsp[-1].str));
+		exit(1);
+	}
 	
 }
 #line 1294 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 14:
+#line 80 "compilateur.yacc.y" /* yacc.c:1646  */
+    {
+	fprintf(yyout, "Ecriture de :  %s \n", (yyvsp[-1].str));
+	fprintf(yyout, "outE;;;%d\n", nbVar);
+	
+}
+#line 1304 "y.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1298 "y.tab.c" /* yacc.c:1646  */
+
+#line 1308 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1522,11 +1532,10 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 77 "compilateur.yacc.y" /* yacc.c:1906  */
+#line 89 "compilateur.yacc.y" /* yacc.c:1906  */
 
 
 int main(int argc, char ** argv) {
-	Table_hachage t;
 	initialiser_table_hachage(&t,25);
 	FILE * fsrc, * fdest; 
 	if(argc !=3){
