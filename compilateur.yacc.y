@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "table_hachage.h"
 extern FILE *yyin, *yyout;
 int nbVar = 0;
 %}
@@ -76,6 +77,8 @@ Ecriture : ECRIRE VAR')'{
 %%
 
 int main(int argc, char ** argv) {
+	Table_hachage t;
+	initialiser_table_hachage(&t,25);
 	FILE * fsrc, * fdest; 
 	if(argc !=3){
 		fprintf(stderr,"Veuillez indiquer un nom de fichier d'entrée et de sortie");

@@ -73,17 +73,17 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-#line 21 "compilateur.yacc.y" /* yacc.c:1909  */
+#line 22 "compilateur.yacc.y" /* yacc.c:1909  */
 union YYSTYPE
 {
-#line 22 "compilateur.yacc.y" /* yacc.c:1909  */
+#line 23 "compilateur.yacc.y" /* yacc.c:1909  */
 
     char * str;
 	int val;
 
 #line 85 "y.tab.h" /* yacc.c:1909  */
 };
-#line 21 "compilateur.yacc.y" /* yacc.c:1909  */
+#line 22 "compilateur.yacc.y" /* yacc.c:1909  */
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

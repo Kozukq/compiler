@@ -10,8 +10,10 @@ YACC = yacc
 YACCFLAGS = -d
 YACCLIB = 
 
-$(EXECUTABLE): y.tab.o lex.yy.o
-	gcc -o $(EXECUTABLE) lex.yy.o y.tab.o $(LEXLIB) $(YACCLIB) -W -Wall
+LIB = -lm
+
+$(EXECUTABLE): y.tab.o lex.yy.o liste.o cellule.o table_hachage.o
+	gcc -o $(EXECUTABLE) lex.yy.o y.tab.o liste.o cellule.o table_hachage.o $(LEXLIB) $(YACCLIB) $(LIB) -W -Wall
 
 lex.yy.o: lex.yy.c y.tab.h
 	gcc -c lex.yy.c
@@ -24,6 +26,15 @@ y.tab.o : y.tab.h y.tab.c
 
 y.tab.c y.tab.h : $(YACC_FILE)
 	$(YACC) $(YACCFLAGS) $(YACC_FILE)
+
+liste.o : liste.c liste.h
+	gcc -c liste.c
+
+cellule.o : cellule.c cellule.h
+	gcc -c cellule.c
+
+table_hachage.o : table_hachage.c table_hachage.h
+	gcc -c table_hachage.c
 
 clean:
 	rm -f *~ \#* *.o
