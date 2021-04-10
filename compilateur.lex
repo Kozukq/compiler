@@ -23,6 +23,13 @@ entier|réel {
 	return TYPE;
 }
 
+lire[(] {
+	return LIRE;
+}
+écrire[(] {
+	return ECRIRE;
+}
+
 [A-z]+ {
 	char * tmp = malloc(sizeof(char) * strlen(yytext));
 	printf("test var : %s\n", yytext);

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 extern FILE *yyin, *yyout;
+int nbVar = 0;
 %}
 
 %token ENTIER
@@ -14,6 +15,8 @@ extern FILE *yyin, *yyout;
 %token VAR
 %token FUNCTION
 %token PROCEDURE
+%token LIRE
+%token ECRIRE
 
 %union YYSTYPE
 {
@@ -40,17 +43,34 @@ decla: VAR ':' TYPE decla{
 		} else {
 			fprintf(yyout, "Imossible de reconnaitre réel dans : %s\n", $3);
 		}
+		free($1);
+		free($3);
 	}
-	|VAR suiteVar ':' TYPE decla{
+	|VAR ',' suiteVar ':' TYPE decla{
 		fprintf(yyout, "Declaration d'une suite de variables %s \n", $1);
+		free($1);
 	}
 	|
 ;
 
-suiteVar: ',' VAR suiteVar |
+suiteVar: VAR ',' suiteVar | VAR |
 ;
-corps : 
+corps : Lecture corps | Ecriture corps |
 ;
+
+Lecture : LIRE VAR')' {
+	fprintf(yyout, "Lecture de :  %s \n", $2);
+	fprintf(yyout, "inE;;;%d\n", nbVar);
+	
+}
+;
+Ecriture : ECRIRE VAR')'{
+	fprintf(yyout, "Ecriture de :  %s \n", $2);
+	fprintf(yyout, "outE;;;%d\n", nbVar);
+	
+}
+;
+
 	
 
 %%
