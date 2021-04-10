@@ -23,10 +23,10 @@ void inserer(Cellule * c, Liste * l){
 
 void afficher_liste(Liste * l){
   if((l -> tete) != NULL){ // si la liste n'est pas vide
-    printf("%s ", (l -> tete) -> valeur); // affiche la tete uniquement
+    printf("%s ", (l -> tete) -> nom); // affiche la tete uniquement
     Cellule * tmp = ((l -> tete -> successeur));
     while(tmp != NULL){
-      printf("%s ",(tmp -> valeur));
+      printf("%s ",(tmp -> nom));
       tmp = tmp -> successeur;
     }
     printf("\n");
@@ -38,12 +38,12 @@ void afficher_liste(Liste * l){
 Cellule * rechercher(char * valeur, Liste l){
 
   if((l.tete) != NULL) {
-    if(strcmp((l.tete) -> valeur, valeur)==0){
+    if(strcmp((l.tete) -> nom, valeur)==0){
       return (l.tete);
     } else {
       Cellule * tmp = (l.tete)-> successeur ;
       while( tmp != NULL){
-	if(strcmp(tmp -> valeur,valeur)==0){
+	if(strcmp(tmp -> nom,valeur)==0){
 	  return tmp;
 	} else {
 	  tmp = tmp -> successeur;

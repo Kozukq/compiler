@@ -36,7 +36,7 @@ int hachage(unsigned long long k,int modulo){
 }
 
 void inserer_hachage(Table_hachage * t,Cellule * c){
-  unsigned long long k = convertir_ch_entier(c -> valeur);
+  unsigned long long k = convertir_ch_entier(c -> nom);
   int indice = hachage(k, t -> taille);
   inserer(c, t -> table[indice]);
   
@@ -49,7 +49,7 @@ Cellule * rechercher_hachage(Table_hachage t, char * s){
 }
 
 void supprimer_hachage(Table_hachage * t, Cellule * c){
-  unsigned long long k = convertir_ch_entier(c -> valeur);
+  unsigned long long k = convertir_ch_entier(c -> nom);
   int indice = hachage(k, t->taille);
   supprimer(c,t -> table[indice]);
 }
