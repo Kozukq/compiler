@@ -2,7 +2,7 @@
 
 %{
 #include "y.tab.h" 
-#include "table_hachage.h"
+#include "include/table_hachage.h"
 #include <string.h>
 void yyerror(const char *erreurMsg);
 %}

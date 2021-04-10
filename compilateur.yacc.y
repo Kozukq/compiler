@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "table_hachage.h"
-#include "cellule.h"
-#include "liste.h"
+#include "include/table_hachage.h"
 extern FILE *yyin, *yyout;
 int nbVar = 0;
 Table_hachage t;
