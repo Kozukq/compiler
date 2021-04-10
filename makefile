@@ -13,8 +13,8 @@ YACCLIB =
 LIB = -lm
 FLAGS = -W -Wall
 
-$(EXECUTABLE): y.tab.o lex.yy.o liste.o cellule.o table_hachage.o
-	gcc -o $(EXECUTABLE) lex.yy.o y.tab.o liste.o cellule.o table_hachage.o $(LEXLIB) $(YACCLIB) $(LIB)
+$(EXECUTABLE): y.tab.o lex.yy.o liste.o cellule.o table_hachage.o quadruplet.o
+	gcc -o $(EXECUTABLE) lex.yy.o y.tab.o liste.o cellule.o table_hachage.o quadruplet.o $(LEXLIB) $(YACCLIB) $(LIB)
 	rm -f *.o
 
 lex.yy.o: lex.yy.c y.tab.h
@@ -37,6 +37,9 @@ cellule.o : include/cellule.c include/cellule.h
 
 table_hachage.o : include/table_hachage.c include/table_hachage.h
 	gcc -c include/table_hachage.c
+
+quadruplet.o : quadruplet.c quadruplet.h
+	gcc -c quadruplet.c
 
 clean:
 	rm -f *~ \#* *.o
