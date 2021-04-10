@@ -17,7 +17,6 @@ Fin {return FIN;}
 
 entier|réel {
 	char * tmp = malloc(sizeof(char) * strlen(yytext));
-	printf("test type : %s\n", yytext);
 	strcpy(tmp,yytext);
 	yylval.str = tmp;
 	printf("test type : %s\n", yylval);
@@ -33,7 +32,6 @@ lire[(] {
 
 [A-z]+ {
 	char * tmp = malloc(sizeof(char) * strlen(yytext));
-	printf("test var : %s\n", yytext);
 	strcpy(tmp,yytext);
 	yylval.str = tmp;
 	printf("test var : %s\n", yylval);

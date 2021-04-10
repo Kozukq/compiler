@@ -460,8 +460,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    38,    38,    43,    45,    53,    57,    60,    60,    60,
-      62,    62,    62,    65,    80
+       0,    38,    38,    43,    45,    52,    56,    59,    59,    59,
+      61,    61,    61,    64,    76
 };
 #endif
 
@@ -1247,7 +1247,7 @@ yyreduce:
         case 2:
 #line 38 "compilateur.yacc.y" /* yacc.c:1646  */
     {
-           fprintf(yyout,"Reconnait une suite de declaration de variables\n");
+           printf("Le fichier source est conforme\n");
       }
 #line 1253 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1258,53 +1258,54 @@ yyreduce:
 		Cellule *c = malloc(sizeof(Cellule));
 		initialiserCellule(c, (yyvsp[-3].str), (yyvsp[-1].str), nbVar);
 		nbVar++; 
-		printf("Declaration d'une seule variable : %s et son Type :  %s \n", (yyvsp[-3].str), (yyvsp[-1].str));
 		inserer_hachage(&t,c);
 
 	}
-#line 1266 "y.tab.c" /* yacc.c:1646  */
+#line 1265 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 53 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 52 "compilateur.yacc.y" /* yacc.c:1646  */
     {
 		fprintf(yyout, "Declaration d'une suite de variables %s \n", (yyvsp[-5].str));
 		free((yyvsp[-5].str));
 	}
-#line 1275 "y.tab.c" /* yacc.c:1646  */
+#line 1274 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 65 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 64 "compilateur.yacc.y" /* yacc.c:1646  */
     {
-	fprintf(yyout, "Lecture de :  %s \n", (yyvsp[-1].str));
-	fprintf(yyout, "inE;;;%d\n", nbVar);
 	Cellule * c;
 	c = rechercher_hachage(t, (yyvsp[-1].str));
 	if(c != NULL){
-		printf("Lecture de :  %s \n", (yyvsp[-1].str));
 		fprintf(yyout, "inE;;;%d\n", c->num);
 	} else {
-		printf("Erreur de lecture, %s n'a pas été définie", (yyvsp[-1].str));
+		fprintf(stderr,"Erreur de lecture, %s n'a pas été définie\n", (yyvsp[-1].str));
 		exit(1);
 	}
 	
 }
-#line 1294 "y.tab.c" /* yacc.c:1646  */
+#line 1290 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 80 "compilateur.yacc.y" /* yacc.c:1646  */
+#line 76 "compilateur.yacc.y" /* yacc.c:1646  */
     {
-	fprintf(yyout, "Ecriture de :  %s \n", (yyvsp[-1].str));
-	fprintf(yyout, "outE;;;%d\n", nbVar);
-	
+	Cellule * c;
+	c = rechercher_hachage(t, (yyvsp[-1].str));
+	if(c != NULL){
+		fprintf(yyout, "outE;;;%d\n", c->num);
+	} else {
+		fprintf(stderr,"Erreur d'écriture, %s n'a pas été définie\n", (yyvsp[-1].str));
+		exit(1);
+	}
 }
-#line 1304 "y.tab.c" /* yacc.c:1646  */
+#line 1305 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1308 "y.tab.c" /* yacc.c:1646  */
+#line 1309 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1532,7 +1533,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 89 "compilateur.yacc.y" /* yacc.c:1906  */
+#line 90 "compilateur.yacc.y" /* yacc.c:1906  */
 
 
 int main(int argc, char ** argv) {

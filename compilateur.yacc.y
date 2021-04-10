@@ -36,7 +36,7 @@ Table_hachage t;
 Cellule * rechercher_hachage(Table_hachage, char *);*/
 
 programme: algorithme{
-           fprintf(yyout,"Reconnait une suite de declaration de variables\n");
+           printf("Le fichier source est conforme\n");
       }
       ;
 
@@ -46,7 +46,6 @@ decla: VAR ':' TYPE decla{
 		Cellule *c = malloc(sizeof(Cellule));
 		initialiserCellule(c, $1, $3, nbVar);
 		nbVar++; 
-		printf("Declaration d'une seule variable : %s et son Type :  %s \n", $1, $3);
 		inserer_hachage(&t,c);
 
 	}
@@ -63,24 +62,26 @@ corps : Lecture corps | Ecriture corps |
 ;
 
 Lecture : LIRE VAR')' {
-	fprintf(yyout, "Lecture de :  %s \n", $2);
-	fprintf(yyout, "inE;;;%d\n", nbVar);
 	Cellule * c;
 	c = rechercher_hachage(t, $2);
 	if(c != NULL){
-		printf("Lecture de :  %s \n", $2);
 		fprintf(yyout, "inE;;;%d\n", c->num);
 	} else {
-		printf("Erreur de lecture, %s n'a pas été définie\n", $2);
+		fprintf(stderr,"Erreur de lecture, %s n'a pas été définie\n", $2);
 		exit(1);
 	}
 	
 }
 ;
 Ecriture : ECRIRE VAR')'{
-	fprintf(yyout, "Ecriture de :  %s \n", $2);
-	fprintf(yyout, "outE;;;%d\n", nbVar);
-	
+	Cellule * c;
+	c = rechercher_hachage(t, $2);
+	if(c != NULL){
+		fprintf(yyout, "outE;;;%d\n", c->num);
+	} else {
+		fprintf(stderr,"Erreur d'écriture, %s n'a pas été définie\n", $2);
+		exit(1);
+	}
 }
 ;
 
