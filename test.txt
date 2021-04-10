@@ -1,6 +1,6 @@
 Algorithme
 Déclarations
-  x : entier
+  x : réel
 Début
   lire(x)
   écrire(x)

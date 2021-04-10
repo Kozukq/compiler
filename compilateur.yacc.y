@@ -69,7 +69,11 @@
 		Cellule* cell;
 		cell = rechercher_hachage(table, $2);
 		if(cell != NULL){
-			fprintf(yyout, "inE;;;%d\n", cell->num);
+			if(strcmp(cell->type,"entier")==0){
+				fprintf(yyout, "inE;;;%d\n", cell->num);
+			} else {
+				fprintf(yyout, "inR;;;%d\n", cell->num);
+			}
 		} else {
 			fprintf(stderr,"Erreur de lecture, %s n'a pas été définie\n", $2);
 			exit(1);
@@ -82,7 +86,11 @@
 		Cellule* cell;
 		cell = rechercher_hachage(table, $2);
 		if(cell != NULL){
-			fprintf(yyout, "outE;;;%d\n", cell->num);
+			if(strcmp(cell->type,"entier")==0){
+				fprintf(yyout, "outE;;;%d\n", cell->num);
+			} else {
+				fprintf(yyout, "outR;;;%d\n", cell->num);
+			}
 		} else {
 			fprintf(stderr,"Erreur d'écriture, %s n'a pas été définie\n", $2);
 			exit(1);
