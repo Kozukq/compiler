@@ -1,23 +1,44 @@
 %{
 #include "y.tab.h" 
+#include <string.h>
 void yyerror(const char *erreurMsg);
 %}
 
 %%
 
 Algorithme { return ALGO;}
+
 Déclarations {return DECLARATIONS;}
-Début { return DEBUT;}
+
+Début {return DEBUT;}
+
 Fin {return FIN;}
-entier|réel { yylval = 5;
-return TYPE;}
-[A-z]+ { printf("test %s", yytext);
-return VAR;}
-[0-9]+	 {
-					yylval = atoi(yytext);
-          return ENTIER;
-         }
+
+entier|réel {
+	char * tmp = malloc(sizeof(char) * strlen(yytext));
+	printf("test type : %s\n", yytext);
+	strcpy(tmp,yytext);
+	yylval.str = tmp;
+	printf("test type : %s\n", yylval);
+	return TYPE;
+}
+
+[A-z]+ {
+	char * tmp = malloc(sizeof(char) * strlen(yytext));
+	printf("test var : %s\n", yytext);
+	strcpy(tmp,yytext);
+	yylval.str = tmp;
+	printf("test var : %s\n", yylval);
+	return VAR;
+}
+
+[0-9]+ {
+	yylval.val = atoi(yytext);
+  return ENTIER;
+}
+
 [:,()=]	 { return *yytext; }
+
 [ \t\n]
 ; 
 	yyerror("Caractère non valide");

@@ -1,8 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "table_hachage.h"
-#include"y.tab.h"
+#include <string.h>
 extern FILE *yyin, *yyout;
 %}
 
@@ -16,30 +15,41 @@ extern FILE *yyin, *yyout;
 %token FUNCTION
 %token PROCEDURE
 
+%union YYSTYPE
+{
+    char * str;
+	int val;
+}
+
+%type<str> VAR TYPE
+
 %%
 
+
 programme: algorithme{
-           fprintf(yyout,"Reconnait une suite de declaration de variables %s\n", $1);
+           fprintf(yyout,"Reconnait une suite de declaration de variables\n");
       }
       ;
 
 algorithme: ALGO DECLARATIONS decla DEBUT corps FIN;
 
 decla: VAR ':' TYPE decla{
-		fprintf(yyout, "Declaration d'une seule variable %d \n", $2);
-		$$ = 5;
-		printf("test : %d", $$);
+		fprintf(yyout, "Declaration d'une seule variable : %s et son Type :  %s \n", $1, $3);
+		if(strcmp($3,"réel")==0){
+			fprintf(yyout, "%s est un réel \n", $1);
+		} else {
+			fprintf(yyout, "Imossible de reconnaitre réel dans : %s\n", $3);
+		}
 	}
-	|VAR ',' suiteVar ':' TYPE decla{
-		fprintf(yyout, "Declaration d'une suite de variables %d \n", $3);
+	|VAR suiteVar ':' TYPE decla{
+		fprintf(yyout, "Declaration d'une suite de variables %s \n", $1);
 	}
 	|
 ;
 
-suiteVar: VAR |
-	VAR ',' VAR |
+suiteVar: ',' VAR suiteVar |
 ;
-corps :
+corps : 
 ;
 	
 

@@ -503,8 +503,9 @@ char *yytext;
 #line 1 "compilateur.lex"
 #line 2 "compilateur.lex"
 #include "y.tab.h" 
+#include <string.h>
 void yyerror(const char *erreurMsg);
-#line 508 "lex.yy.c"
+#line 509 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -722,10 +723,10 @@ YY_DECL
 		}
 
 	{
-#line 6 "compilateur.lex"
+#line 7 "compilateur.lex"
 
 
-#line 729 "lex.yy.c"
+#line 730 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -784,71 +785,83 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "compilateur.lex"
+#line 9 "compilateur.lex"
 { return ALGO;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "compilateur.lex"
+#line 11 "compilateur.lex"
 {return DECLARATIONS;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "compilateur.lex"
-{ return DEBUT;}
+#line 13 "compilateur.lex"
+{return DEBUT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "compilateur.lex"
+#line 15 "compilateur.lex"
 {return FIN;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "compilateur.lex"
-{ yylval = 5;
-return TYPE;}
+#line 17 "compilateur.lex"
+{
+	char * tmp = malloc(sizeof(char) * strlen(yytext));
+	printf("test type : %s\n", yytext);
+	strcpy(tmp,yytext);
+	yylval.str = tmp;
+	printf("test type : %s\n", yylval);
+	return TYPE;
+}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 14 "compilateur.lex"
-{ printf("test %s", yytext);
-return VAR;}
+#line 26 "compilateur.lex"
+{
+	char * tmp = malloc(sizeof(char) * strlen(yytext));
+	printf("test var : %s\n", yytext);
+	strcpy(tmp,yytext);
+	yylval.str = tmp;
+	printf("test var : %s\n", yylval);
+	return VAR;
+}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 16 "compilateur.lex"
+#line 35 "compilateur.lex"
 {
-					yylval = atoi(yytext);
-          return ENTIER;
-         }
+	yylval.val = atoi(yytext);
+  return ENTIER;
+}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 20 "compilateur.lex"
+#line 40 "compilateur.lex"
 { return *yytext; }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 21 "compilateur.lex"
+#line 42 "compilateur.lex"
 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 22 "compilateur.lex"
+#line 43 "compilateur.lex"
 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 23 "compilateur.lex"
+#line 44 "compilateur.lex"
 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 25 "compilateur.lex"
+#line 46 "compilateur.lex"
 ECHO;
 	YY_BREAK
-#line 852 "lex.yy.c"
+#line 865 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1849,7 +1862,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 25 "compilateur.lex"
+#line 46 "compilateur.lex"
 
 
 
