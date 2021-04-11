@@ -141,6 +141,9 @@
 		SUPERIEUR_OU_EGAL_A;
 
 	calcul :
+		calcul operateur calcul |
+		calcul operateur VAR |
+		calcul operateur ENTIER |
 		VAR operateur calcul |
 		VAR operateur VAR |
 		VAR operateur ENTIER |
