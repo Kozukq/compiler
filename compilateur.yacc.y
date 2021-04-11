@@ -139,7 +139,26 @@
 			cell1 = rechercher_hachage(table, $1);
 			cell2 = rechercher_hachage(table, $3);
 			if(cell1 != NULL && cell2 != NULL){
-				
+				if(strcmp(cell1->type,"entier")==0){
+					if(strcmp(cell2->type,"entier")==0){
+						fprintf(yyout, ":=;%d;;%d\n", cell2->num, cell1->num);
+						nbQua= nbQua+1;
+					} 
+					else {
+						fprintf(stderr, "Erreur : Affectation d'une valeur réelle à l'entier %s\n", $1);
+						exit(1);
+					}
+				} 
+				else {
+					if(strcmp(cell2->type,"réel")==0){
+						fprintf(yyout, ":=;%d;;%d\n", cell2->num, cell1->num);
+						nbQua= nbQua+1;
+					} 
+					else {
+						fprintf(stderr, "Erreur : Affectation d'une valeur entière au réel %s\n", $1);
+						exit(1);
+					}
+				}
 			}
 		}|
 		VAR ASSIGNATION calcul {
