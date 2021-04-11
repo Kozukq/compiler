@@ -16,12 +16,14 @@
 %}
 
 %union YYSTYPE {
+	double reel;
     char* str;
-	int val;
+	int entier;
 }
 
 /* Définitions des tokens */
 %token ENTIER
+%token REEL
 %token ALGO
 %token DECLARATIONS
 %token DEBUT
@@ -51,6 +53,8 @@
 
 /* Définitions des types */
 %type<str> VAR TYPE
+%type<entier> ENTIER
+%type<reel> REEL
 
 /* Règles de grammaire */
 %%

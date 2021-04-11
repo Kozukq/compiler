@@ -66,10 +66,6 @@ défaut {
 	return DEFAUT;
 }
 
-Fin {
-	return FIN;
-}
-
 FinCas {
 	return FIN_CAS;
 }
@@ -85,8 +81,14 @@ FinCas {
 
 	/* Nombre */
 [0-9]+ {
-	yylval.val = atoi(yytext);
+	yylval.entier = atoi(yytext);
 	return ENTIER;
+}
+
+	/*Réel*/
+[0-9]+[.,][0-9]+ {
+	yylval.entier = strtod(yytext,NULL);
+	return REEL;
 }
 
 	/* Opérateur d'assignation */
@@ -139,6 +141,10 @@ FinCas {
 (>=) {
 	return SUPERIEUR_OU_EGAL_A;
 }	
+
+[:)=*-+%] {
+	return *yytext;
+}
 
 	/* Caractères à ignorer */
 [ \t\n] {}
