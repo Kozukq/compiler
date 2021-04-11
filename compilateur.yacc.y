@@ -75,14 +75,6 @@
 			inserer_hachage(&table,cell);
 
 		} |
-		VAR ',' suite_var ':' TYPE decla {
-			printf("Declaration d'une suite de variables \n");
-		} |
-		;
-
-	suite_var: 
-		VAR ',' suite_var | 
-		VAR |
 		;
 
 	corps : 
