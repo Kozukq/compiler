@@ -1,6 +1,9 @@
 #ifndef QUADRUPLET_H
 #define QUADRUPLET_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 /*Structure représentant un quadruplet*/
 typedef struct quadruplet_t{
 	char * mnemonique;

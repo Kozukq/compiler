@@ -1,7 +1,10 @@
 Algorithme
 Déclarations
-	x : entier
+  x : entier
+  y : entier
 Début
-  lire(x)
-  écrire(x)
+  lire(y)
+  écrire(y)
+	x := 4 + 3
+	écrire(x)
 Fin

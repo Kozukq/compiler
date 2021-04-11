@@ -96,25 +96,20 @@ FinCas {
 	return ASSIGNATION;
 }
 
+
+
 	/* Opérateurs de calculs */
+
+[-]	{
+
+	yylval.car = yytext[0];
+	return MOINS;
+}
+
 [+*-/%]	{
-	switch(*yytext) {
 
-		case '+':
-			return ADDITION;
-		
-		case '*':
-			return MULTIPLICATION;
-		
-		case '-':
-			return SOUSTRACTION;
-
-		case '/':
-			return DIVISION;
-
-		case '%':
-			return MODULO;
-	}
+	yylval.car = yytext[0];
+	return OPERATEUR;
 }
 
 	/* Opérateurs de comparaison */

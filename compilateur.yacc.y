@@ -1,5 +1,6 @@
 /* Déclarations */
 %{
+	#include "quadruplet.h"
 	#include "include/table_hachage.h"
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -9,6 +10,7 @@
 	extern FILE* yyout;
 
 	int nbVar = 0;
+	int nbQua = 0;
 	Table_hachage table;
 
 	int yylex();
@@ -19,6 +21,7 @@
 	double reel;
     char* str;
 	int entier;
+	char car;
 }
 
 /* Définitions des tokens */
@@ -41,20 +44,19 @@
 %token INFERIEUR_OU_EGAL_A
 %token SUPERIEUR_A
 %token SUPERIEUR_OU_EGAL_A
-%token ADDITION
-%token MULTIPLICATION
-%token SOUSTRACTION
-%token DIVISION
-%token MODULO
+%token OPERATEUR
 %token CAS
 %token PARMI
 %token DEFAUT
 %token FIN_CAS
+%token MOINS
 
 /* Définitions des types */
 %type<str> VAR TYPE
-%type<entier> ENTIER
+%type<entier> ENTIER calcul
 %type<reel> REEL
+%type<car> OPERATEUR MOINS operateur
+
 
 /* Règles de grammaire */
 %%
@@ -75,8 +77,7 @@
 
 		} |
 		VAR ',' suite_var ':' TYPE decla {
-			fprintf(yyout, "Declaration d'une suite de variables %s \n", $1);
-			free($1);
+			printf("Declaration d'une suite de variables \n");
 		} |
 		;
 
@@ -88,6 +89,7 @@
 	corps : 
 		lecture corps | 
 		ecriture corps |
+		assignation corps |
 		;
 
 	lecture : 
@@ -97,9 +99,11 @@
 			if(cell != NULL){
 				if(strcmp(cell->type,"entier")==0){
 					fprintf(yyout, "inE;;;%d\n", cell->num);
+					nbQua= nbQua+1;
 				} 
 				else {
 					fprintf(yyout, "inR;;;%d\n", cell->num);
+					nbQua= nbQua+1;
 				}
 			} 
 			else {
@@ -115,9 +119,11 @@
 			if(cell != NULL){
 				if(strcmp(cell->type,"entier")==0){
 					fprintf(yyout, "outE;;;%d\n", cell->num);
+					nbQua = nbQua +1;
 				} 
 				else {
 					fprintf(yyout, "outR;;;%d\n", cell->num);
+					nbQua= nbQua+1;
 				}
 			} 
 			else {
@@ -127,8 +133,33 @@
 		};
 
 	assignation : 
-		VAR ASSIGNATION VAR |
-		VAR ASSIGNATION calcul |
+		VAR ASSIGNATION VAR 
+		{
+			Cellule* cell1, *cell2;
+			cell1 = rechercher_hachage(table, $1);
+			cell2 = rechercher_hachage(table, $3);
+			if(cell1 != NULL && cell2 != NULL){
+				
+			}
+		}|
+		VAR ASSIGNATION calcul {
+			Cellule* cell;
+			cell = rechercher_hachage(table, $1);
+			if(cell != NULL){
+				if(strcmp(cell->type,"entier")==0){
+					fprintf(yyout, "consE;%d;;%d\n", $3, cell->num);
+					nbQua= nbQua+1;
+				} 
+				else {
+					fprintf(yyout, "consR;%f;;%d\n", $3, cell->num);
+					nbQua= nbQua+1;
+				}
+			} 
+			else {
+				fprintf(stderr,"Erreur d'assignation, %s n'a pas été définie\n", $1);
+				exit(1);
+			}
+		} |
 		VAR ASSIGNATION ENTIER;
 
 	structure_conditionnelle : 
@@ -145,27 +176,47 @@
 		SUPERIEUR_OU_EGAL_A;
 
 	calcul :
-		calcul operateur calcul |
-		calcul operateur VAR |
-		calcul operateur ENTIER |
-		VAR operateur calcul |
-		VAR operateur VAR |
-		VAR operateur ENTIER |
-		ENTIER operateur calcul |
-		ENTIER operateur VAR |
-		ENTIER operateur ENTIER;
+		operande operateur operande |
+		operande operateur ENTIER |
+		ENTIER operateur operande |
+		ENTIER operateur ENTIER {
+		switch($2) {
 
-	operateur :
-		ADDITION |
-		SOUSTRACTION |
-		MULTIPLICATION |
-		DIVISION |
-		MODULO;
+		case '+':
+			$$ = $1 + $3;
+			break;
+		
+		case '-':
+			$$ = $1 - $3;
+			break;
+
+		case '/':
+			$$ = $1 / $3;
+			break;
+
+		case '%':
+			$$ = $1 % $3;
+			break;
+	
+		case '*':
+			$$ = $1 * $3;
+			break;
+			}
+		};
+
+	operateur : MOINS {
+		$$ = '-';
+	}|
+		OPERATEUR {
+		$$ = $1;
+	};
+	
+	operande : calcul | VAR | MOINS operande | REEL | '('calcul')';
+
 %%
 
 /* Procédure principale */
 int main(int argc, char* argv[]) {
-
 	FILE* file_source;
 	FILE* file_dest; 
 
