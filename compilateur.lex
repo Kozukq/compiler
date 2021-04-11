@@ -53,25 +53,25 @@ lire[(] {
 
 	/* Cas Parmi */
 
-Cas{
+Cas {
 	return CAS;
 }
 
-Parmi{
-	return PARMI
+Parmi {
+	return PARMI;
 }
 
 
-défaut{
-	return DEFAUT
+défaut {
+	return DEFAUT;
 }
 
 Fin {
-	return FIN
+	return FIN;
 }
 
 FinCas {
-	return FIN_CAS
+	return FIN_CAS;
 }
 
 	/* Texte */
@@ -96,7 +96,23 @@ FinCas {
 
 	/* Opérateurs de calculs */
 [+*-/%]	{
-	return *yytext;
+	switch(*yytext) {
+
+		case '+':
+			return ADDITION;
+		
+		case '*':
+			return MULTIPLICATION;
+		
+		case '-':
+			return SOUSTRACTION;
+
+		case '/':
+			return DIVISION;
+
+		case '%':
+			return MODULO;
+	}
 }
 
 	/* Opérateurs de comparaison */
@@ -122,9 +138,7 @@ FinCas {
 
 (>=) {
 	return SUPERIEUR_OU_EGAL_A;
-}
-
-	
+}	
 
 	/* Caractères à ignorer */
 [ \t\n] {}
