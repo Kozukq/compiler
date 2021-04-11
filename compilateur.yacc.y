@@ -27,29 +27,28 @@
 /* Définitions des tokens */
 %token ENTIER
 %token REEL
+
 %token ALGO
 %token DECLARATIONS
 %token DEBUT
-%token TYPE
 %token FIN
+
+%token TYPE
 %token VAR
-%token FUNCTION
-%token PROCEDURE
-%token LIRE
-%token ECRIRE
 %token ASSIGNATION
+%token OPERATEUR
+%token MOINS
+
 %token EGAL_A
 %token DIFFERENT_DE
 %token INFERIEUR_A
 %token INFERIEUR_OU_EGAL_A
 %token SUPERIEUR_A
 %token SUPERIEUR_OU_EGAL_A
-%token OPERATEUR
-%token CAS
-%token PARMI
-%token DEFAUT
-%token FIN_CAS
-%token MOINS
+
+%token LIRE
+%token ECRIRE
+
 
 /* Définitions des types */
 %type<str> VAR TYPE
@@ -90,47 +89,8 @@
 		lecture corps | 
 		ecriture corps |
 		assignation corps |
+		structure_conditionnelle corps |
 		;
-
-	lecture : 
-		LIRE VAR')' {
-			Cellule* cell;
-			cell = rechercher_hachage(table, $2);
-			if(cell != NULL){
-				if(strcmp(cell->type,"entier")==0){
-					fprintf(yyout, "inE;;;%d\n", cell->num);
-					nbQua= nbQua+1;
-				} 
-				else {
-					fprintf(yyout, "inR;;;%d\n", cell->num);
-					nbQua= nbQua+1;
-				}
-			} 
-			else {
-				fprintf(stderr,"Erreur de lecture, %s n'a pas été définie\n", $2);
-				exit(1);
-			}
-		};
-
-	ecriture : 
-		ECRIRE VAR')' {
-			Cellule* cell;
-			cell = rechercher_hachage(table, $2);
-			if(cell != NULL){
-				if(strcmp(cell->type,"entier")==0){
-					fprintf(yyout, "outE;;;%d\n", cell->num);
-					nbQua = nbQua +1;
-				} 
-				else {
-					fprintf(yyout, "outR;;;%d\n", cell->num);
-					nbQua= nbQua+1;
-				}
-			} 
-			else {
-				fprintf(stderr,"Erreur d'écriture, %s n'a pas été définie\n", $2);
-				exit(1);
-			}
-		};
 
 	assignation : 
 		VAR ASSIGNATION VAR 
@@ -139,65 +99,66 @@
 			cell1 = rechercher_hachage(table, $1);
 			cell2 = rechercher_hachage(table, $3);
 			if(cell1 != NULL && cell2 != NULL){
-				if(strcmp(cell1->type,"entier")==0){
-					if(strcmp(cell2->type,"entier")==0){
+				if(strcmp(cell1->type,"entier") == 0){
+					if(strcmp(cell2->type,"entier") == 0){
 						fprintf(yyout, ":=;%d;;%d\n", cell2->num, cell1->num);
 						nbQua= nbQua+1;
 					} 
 					else {
 						fprintf(stderr, "Erreur : Affectation d'une valeur réelle à l'entier %s\n", $1);
-						exit(1);
+						exit(EXIT_FAILURE);
 					}
 				} 
 				else {
-					if(strcmp(cell2->type,"réel")==0){
+					if(strcmp(cell2->type,"réel") == 0){
 						fprintf(yyout, ":=;%d;;%d\n", cell2->num, cell1->num);
 						nbQua= nbQua+1;
 					} 
 					else {
 						fprintf(stderr, "Erreur : Affectation d'une valeur entière au réel %s\n", $1);
-						exit(1);
+						exit(EXIT_FAILURE);
 					}
 				}
 			}
-		}|
+		} |
 		VAR ASSIGNATION calcul {
 			Cellule* cell;
 			cell = rechercher_hachage(table, $1);
 			if(cell != NULL){
-				if(strcmp(cell->type,"entier")==0){
+				if(strcmp(cell->type,"entier") == 0){
 					fprintf(yyout, "consE;%d;;%d\n", $3, cell->num);
 					nbQua= nbQua+1;
 				} 
 				else {
-					fprintf(yyout, "consR;%f;;%d\n", $3, cell->num);
+					fprintf(yyout, "consR;%d;;%d\n", $3, cell->num);
 					nbQua= nbQua+1;
 				}
 			} 
 			else {
 				fprintf(stderr,"Erreur d'assignation, %s n'a pas été définie\n", $1);
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		} |
-		VAR ASSIGNATION ENTIER;
-
-	structure_conditionnelle : 
-		VAR condition VAR |
-		VAR condition calcul |
-		VAR condition ENTIER;
-
-	condition : 
-		EGAL_A | 
-		DIFFERENT_DE | 
-		INFERIEUR_A | 
-		INFERIEUR_OU_EGAL_A | 
-		SUPERIEUR_A | 
-		SUPERIEUR_OU_EGAL_A;
+		VAR ASSIGNATION ENTIER {
+			Cellule* cell;
+			cell = rechercher_hachage(table, $1);
+			if(cell != NULL){
+				if(strcmp(cell->type,"entier") == 0){
+					fprintf(yyout, "consE;%d;;%d\n", $3, cell->num);
+					nbQua= nbQua+1;
+				}
+				else {
+					fprintf(stderr, "Erreur : Affectation d'une valeur réelle à l'entier %s\n", $1);
+					exit(EXIT_FAILURE);
+				}
+			} 
+			else {
+				fprintf(stderr,"Erreur d'assignation, %s n'a pas été définie\n", $1);
+				exit(EXIT_FAILURE);
+			}
+		};
 
 	calcul :
-		operande operateur operande |
-		operande operateur ENTIER |
-		ENTIER operateur operande |
 		ENTIER operateur ENTIER {
 		switch($2) {
 
@@ -225,13 +186,62 @@
 
 	operateur : MOINS {
 		$$ = '-';
-	}|
+	} |
 		OPERATEUR {
 		$$ = $1;
 	};
-	
-	operande : calcul | VAR | MOINS operande | REEL | '('calcul')';
 
+	structure_conditionnelle : 
+		VAR condition VAR {} |
+		VAR condition ENTIER {};
+
+	condition : 
+		EGAL_A | 
+		DIFFERENT_DE | 
+		INFERIEUR_A | 
+		INFERIEUR_OU_EGAL_A | 
+		SUPERIEUR_A | 
+		SUPERIEUR_OU_EGAL_A;
+
+	lecture : 
+		LIRE VAR')' {
+			Cellule* cell;
+			cell = rechercher_hachage(table, $2);
+			if(cell != NULL){
+				if(strcmp(cell->type,"entier") == 0){
+					fprintf(yyout, "inE;;;%d\n", cell->num);
+					nbQua= nbQua+1;
+				} 
+				else {
+					fprintf(yyout, "inR;;;%d\n", cell->num);
+					nbQua= nbQua+1;
+				}
+			} 
+			else {
+				fprintf(stderr,"Erreur de lecture, %s n'a pas été définie\n", $2);
+				exit(EXIT_FAILURE);
+			}
+		};
+
+	ecriture : 
+		ECRIRE VAR')' {
+			Cellule* cell;
+			cell = rechercher_hachage(table, $2);
+			if(cell != NULL){
+				if(strcmp(cell->type,"entier") == 0){
+					fprintf(yyout, "outE;;;%d\n", cell->num);
+					nbQua = nbQua +1;
+				} 
+				else {
+					fprintf(yyout, "outR;;;%d\n", cell->num);
+					nbQua= nbQua+1;
+				}
+			} 
+			else {
+				fprintf(stderr,"Erreur d'écriture, %s n'a pas été définie\n", $2);
+				exit(EXIT_FAILURE);
+			}
+		};
 %%
 
 /* Procédure principale */

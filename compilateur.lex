@@ -51,25 +51,6 @@ lire[(] {
 	return ECRIRE;
 }
 
-	/* Cas Parmi */
-
-Cas {
-	return CAS;
-}
-
-Parmi {
-	return PARMI;
-}
-
-
-défaut {
-	return DEFAUT;
-}
-
-FinCas {
-	return FIN_CAS;
-}
-
 	/* Texte */
 [A-z]+ {
 	char* tmp = malloc(sizeof(char) * strlen(yytext));
@@ -96,18 +77,14 @@ FinCas {
 	return ASSIGNATION;
 }
 
-
-
-	/* Opérateurs de calculs */
-
+	/* Opérateur unaire */
 [-]	{
-
 	yylval.car = yytext[0];
 	return MOINS;
 }
 
+	/* Opérateurs de calculs */
 [+*-/%]	{
-
 	yylval.car = yytext[0];
 	return OPERATEUR;
 }
@@ -137,6 +114,7 @@ FinCas {
 	return SUPERIEUR_OU_EGAL_A;
 }	
 
+	/* Caractères génériques */
 [:)=*-+%] {
 	return *yytext;
 }
